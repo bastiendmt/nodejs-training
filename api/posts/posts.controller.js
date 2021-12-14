@@ -33,6 +33,15 @@ class PostController {
       next(err);
     }
   }
+
+  createPost(req, res, next) {
+    const data = req.body;
+    console.log(data)
+    res.json({
+      id: 1,
+      name: "ana",
+    });
+  }
 }
 
 module.exports = new PostController();
