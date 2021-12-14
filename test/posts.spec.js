@@ -41,7 +41,7 @@ describe("Posts", () => {
       id: 1,
       name: "ana",
     });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(201);
     expect(res.body).toBeDefined();
   });
 });

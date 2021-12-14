@@ -37,7 +37,7 @@ class PostController {
   createPost(req, res, next) {
     const data = req.body;
     console.log(data)
-    res.json({
+    res.status(201).json({
       id: 1,
       name: "ana",
     });
