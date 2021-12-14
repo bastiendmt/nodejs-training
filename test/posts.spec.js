@@ -24,6 +24,10 @@ describe("Posts", () => {
     const res = await supertest(app).get("/api/posts/1");
     expect(res.status).toBe(200);
     expect(res.body).toBeDefined();
+    expect(res.body).toHaveProperty("id");
+    expect(res.body).toHaveProperty("title");
+    expect(res.body).toHaveProperty("body");
+    expect(res.body).toHaveProperty("userId");
   });
 
   test("getting non existant post", async () => {
