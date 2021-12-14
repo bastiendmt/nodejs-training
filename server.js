@@ -32,7 +32,11 @@ app.use((req, res, next) => {
 // Error handler. Used to log errors or easily add
 app.use((err, req, res, next) => {
   console.log(err);
-  res.status(err.status || 500).render("error");
+  const status = err.status || 500
+  res.status(status).render("error", {
+    status,
+    message: err.message
+  });
 });
 
 module.exports = app;
