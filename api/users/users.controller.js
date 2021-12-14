@@ -5,7 +5,7 @@ class UsersController {
     try {
       const { userId } = req.params;
 
-      const results = posts.filter((post) => post.userId == userId);
+      const results = postsData.filter((post) => post.userId == userId);
 
       if (results.length == 0) {
         const error = new Error("No user found with this id");
