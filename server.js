@@ -10,7 +10,7 @@ const usersRouter = require("./api/users/users.router");
 
 app.use(cors());
 app.use("/api/posts", postsRouter);
-app.use("/api/suers", usersRouter);
+app.use("/api/users", usersRouter);
 
 // Serving html
 app.use("/", express.static(`${__dirname}/public`));
