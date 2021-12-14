@@ -5,6 +5,16 @@ class Post {
     this.body = postData.body;
     this.userId = postData.userId;
   }
+
+  toJSON() {
+    return {
+      id: this.id,
+      title: this.title,
+      body: this.body,
+      userId: this.userId,
+      status: "published",
+    };
+  }
 }
 
 module.exports = Post;
