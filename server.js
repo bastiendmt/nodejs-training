@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const { port } = require("./config");
 const postsRouter = require("./api/posts/posts.router");
 const usersRouter = require("./api/users/users.router");
 
@@ -27,6 +26,4 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send(err.message);
 });
 
-app.listen(port, () => {
-  console.log(`App running on http://localhost:${port}`);
-});
+module.exports = app;
