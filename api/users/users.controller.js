@@ -1,4 +1,5 @@
 const postsData = require("../../data/posts.json");
+const { NotFoundError } = require("../../errors");
 
 class UsersController {
   getUserPosts(req, res, next) {
@@ -8,9 +9,7 @@ class UsersController {
       const results = postsData.filter((post) => post.userId == userId);
 
       if (results.length == 0) {
-        const error = new Error("No user found with this id");
-        error.status = 404;
-        throw error;
+        throw new NotFoundError("No posts found");
       }
 
       res.json(results);

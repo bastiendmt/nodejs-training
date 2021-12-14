@@ -1,4 +1,5 @@
 const postsData = require("../../data/posts.json");
+const { NotFoundError } = require("../../errors");
 
 class PostController {
   getAllPosts(req, res) {
@@ -23,9 +24,7 @@ class PostController {
 
       const post = postsData.find((post) => post.id == postId);
       if (!post) {
-        const error = new Error("Post not found");
-        error.status = 404;
-        throw error;
+        throw new NotFoundError("Post not found");
       }
 
       res.json(post);
