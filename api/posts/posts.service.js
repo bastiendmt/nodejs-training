@@ -8,10 +8,11 @@ class PostsService {
   }
 
   async getPost(postId) {
-    const post = await database.db.all(
+    const post = await database.db.get(
       `SELECT * FROM posts WHERE id = ${postId}`
     );
-    return post[0];
+    if (!post) return null;
+    return new Post(post);
   }
 
   async create(post) {
@@ -19,6 +20,7 @@ class PostsService {
       `INSERT INTO posts(userId, title, body) VALUES(?, ?, ?)`,
       [post.userId, post.title, post.body]
     );
+    // this method can return the result or also fetch the post create and return it
     return result;
   }
 }

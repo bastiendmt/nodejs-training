@@ -26,8 +26,6 @@ class PostController {
       // + => converts to a number;
       const postId = +req.params.postId;
 
-      // const posts = postsData.map((post) => new Post(post));
-      // const post = posts.find((post) => post.id == postId);
       const post = await postsService.getPost(postId);
       if (!post) {
         throw new NotFoundError("Post not found");
@@ -42,7 +40,7 @@ class PostController {
   async createPost(req, res, next) {
     try {
       const { title, body, userId } = req.body;
-      if (title == "" || body == "" || userId == "") {
+      if (!title || !body || !userId) {
         throw new BadRequestError("Bad request - parameter missing");
       }
 
