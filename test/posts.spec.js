@@ -1,5 +1,26 @@
 const supertest = require("supertest");
 const app = require("../server");
+const postsData = require("../data/posts.json");
+
+let MOCK = postsData;
+
+jest.mock("../db", () => {
+  return {
+    connect: () => Promise.resolve(),
+    db: {
+      async all() {
+        return MOCK;
+      },
+      async run(query) {
+        // MOCK . push
+      },
+    },
+  };
+});
+
+// beforeEach(() => {
+//   MOCK = ...
+// })
 
 describe("Posts", () => {
   test("gettings all posts", async () => {
@@ -43,5 +64,6 @@ describe("Posts", () => {
     });
     expect(res.status).toBe(201);
     expect(res.body).toBeDefined();
+    //expect(res.body.id).toBe(n+1)
   });
 });
