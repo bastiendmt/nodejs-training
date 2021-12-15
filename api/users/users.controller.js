@@ -53,7 +53,7 @@ class UsersController {
     }
   }
 
-  async login(req, res, next) {
+  async loginUser(req, res, next) {
     try {
       const { email, password } = req.body;
       const userId = await UserService.checkPasswordUser(email, password);

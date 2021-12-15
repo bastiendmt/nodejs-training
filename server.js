@@ -2,10 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 const postsRouter = require("./api/posts/posts.router");
 const usersRouter = require("./api/users/users.router");
 const { NotFoundError } = require("./errors");
-const mongoose = require("mongoose");
 
 const app = express();
 
@@ -29,7 +30,18 @@ app.use(cors());
 app.use(express.json()); // This middleware can also be placed in a specific route
 app.use(helmet()); // This midleware handles XSS breaks and many others
 
-app.use("/api/posts", postsRouter);
+// Auth middleware
+const isAuth = app.use((req, res, next) => {
+  try {
+    const userId = jwt.verify(req.headers["x-access-token"], "secretkey");
+    req.user = userId;
+    next();
+  } catch (error) {
+    next(err);
+  }
+});
+
+app.use("/api/posts", isAuth, postsRouter);
 app.use("/api/users", usersRouter);
 
 // Serving html

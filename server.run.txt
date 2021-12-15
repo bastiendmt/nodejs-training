@@ -1,0 +1,6 @@
+// To run on server
+NODE_ENV=production npm install
+
+npm i -g pm2
+
+pm2 start www/app.js
