@@ -1,6 +1,7 @@
 const postsData = require("../../data/posts.json");
 const { NotFoundError } = require("../../errors");
 const Post = require("../posts/posts.model");
+const UserService = require("./users.service");
 
 class UsersController {
   getUserPosts(req, res, next) {
@@ -15,6 +16,17 @@ class UsersController {
       }
 
       res.json(results);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async signupUser(req, res, next) {
+    try {
+      const data = req.body;
+      const user = await UserService.signup(data);
+      console.log(user);
+      return res.status(201).json(user);
     } catch (err) {
       next(err);
     }
