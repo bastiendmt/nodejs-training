@@ -21,4 +21,9 @@ const PostSchema = Schema({
   },
 });
 
+PostSchema.pre("save", function (next) {
+  this.title = this.title.toUpperCase();
+  next();
+});
+
 module.exports = model("Post", PostSchema);
