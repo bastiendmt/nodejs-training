@@ -1,6 +1,10 @@
 const { default: isEmail } = require("validator/lib/isEmail");
 const postsData = require("../../data/posts.json");
-const { NotFoundError, BadRequestError } = require("../../errors");
+const {
+  NotFoundError,
+  BadRequestError,
+  ConflictError,
+} = require("../../errors");
 const Post = require("../posts/posts.model");
 const UserService = require("./users.service");
 
@@ -28,9 +32,15 @@ class UsersController {
       if (!isEmail(data.email)) {
         throw new BadRequestError("Bad request - email is invalid");
       }
-      const user = await UserService.signup(data);
-      console.log(user);
-      return res.status(201).json(user);
+
+      const userAlreadySignedUp = await UserService.findByEmail(data.email);
+
+      if (userAlreadySignedUp) {
+        throw new ConflictError("Conflict - Email already exists");
+      }
+
+      const newUser = await UserService.signup(data);
+      return res.status(201).json(newUser);
     } catch (err) {
       next(err);
     }
