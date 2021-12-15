@@ -21,13 +21,14 @@ class PostController {
     }
   }
 
-  getPost(req, res, next) {
+  async getPost(req, res, next) {
     try {
       // + => converts to a number;
       const postId = +req.params.postId;
 
-      const posts = postsData.map((post) => new Post(post));
-      const post = posts.find((post) => post.id == postId);
+      // const posts = postsData.map((post) => new Post(post));
+      // const post = posts.find((post) => post.id == postId);
+      const post = await postsService.getPost(postId);
       if (!post) {
         throw new NotFoundError("Post not found");
       }
@@ -46,7 +47,8 @@ class PostController {
       }
 
       const result = await postsService.create({ title, body, userId });
-      res.status(201).json(result);
+      const post = await postsService.getPost(result.lastID);
+      res.status(201).json(post);
     } catch (err) {
       next(err);
     }
