@@ -5,7 +5,9 @@
   "main": "www/app.js",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon www/app"
+    "dev": "nodemon www/app",
+    "db-create": "node bin/setup",
+    "db-reset": "node bin/resest"
   },
   "author": "bastienmt",
   "license": "ISC",
