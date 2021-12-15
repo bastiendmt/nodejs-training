@@ -2,17 +2,12 @@ const database = require("../../db");
 const Post = require("./posts.model");
 
 class PostsService {
-  async getAll() {
-    const postsData = await database.db.all("SELECT * FROM posts");
-    return postsData.map((post) => new Post(post));
+  getAll() {
+    return Post.find();
   }
 
-  async getPost(postId) {
-    const post = await database.db.get(
-      `SELECT * FROM posts WHERE id = ${postId}`
-    );
-    if (!post) return null;
-    return new Post(post);
+  getPost(postId) {
+    return Post.findById(postId);
   }
 
   async create(post) {

@@ -1,20 +1,9 @@
-class Post {
-  constructor(postData) {
-    this.title = postData.title;
-    this.id = postData.id;
-    this.body = postData.body;
-    this.userId = postData.userId;
-  }
+const { Schema, model } = require("mongoose");
 
-  toJSON() {
-    return {
-      id: this.id,
-      title: this.title,
-      body: this.body,
-      userId: this.userId,
-      status: "published",
-    };
-  }
-}
+const PostSchema = Schema({
+  title: String,
+  body: String,
+  userId: Number,
+});
 
-module.exports = Post;
+module.exports = model("Post", PostSchema);

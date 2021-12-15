@@ -4,13 +4,22 @@ const cors = require("cors");
 const helmet = require("helmet");
 const postsRouter = require("./api/posts/posts.router");
 const usersRouter = require("./api/users/users.router");
-const database = require("./db");
 const { NotFoundError } = require("./errors");
+const mongoose = require("mongoose");
 
 const app = express();
 
-database.connect().then(() => {
-  console.log("Database is connected !");
+mongoose.connect("mongodb://163.172.165.5:27017/bastien");
+// Mongoose.connect("mongodb+srv://<username>:<password>@cluster0.atzkf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+
+const db = mongoose.connection;
+
+db.on("error", (err) => {
+  console.log(err);
+});
+
+db.on("open", () => {
+  console.log("Database connected");
 });
 
 app.set("view engine", "pug");
