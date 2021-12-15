@@ -1,26 +1,18 @@
 const supertest = require("supertest");
 const app = require("../server");
 const postsData = require("../data/posts.json");
+const mockingoose = require("mockingoose");
+const Post = require("../api/posts/posts.model");
 
-let MOCK = postsData;
-
-jest.mock("../db", () => {
-  return {
-    connect: () => Promise.resolve(),
-    db: {
-      async all() {
-        return MOCK;
-      },
-      async run(query) {
-        // MOCK . push
-      },
-    },
-  };
+beforeEach(() => {
+  mockingoose(Post).toReturn((query) => {
+    [{ _id: "123456azerty", title: "hello world", body: "some boy" }], "find";
+  });
+  mockingoose(Post).toReturn(
+    [{ title: "hello world", body: "some boy" }],
+    "save"
+  );
 });
-
-// beforeEach(() => {
-//   MOCK = ...
-// })
 
 describe("Posts", () => {
   test("gettings all posts", async () => {
@@ -59,11 +51,11 @@ describe("Posts", () => {
 
   test("create a post", async () => {
     const res = await supertest(app).post("/api/posts").send({
-      id: 1,
-      name: "ana",
+      title: "ana",
+      body: "body",
+      userId: "1",
     });
     expect(res.status).toBe(201);
-    expect(res.body).toBeDefined();
-    //expect(res.body.id).toBe(n+1)
+    expect(res.body._id).toBeDefined();
   });
 });
