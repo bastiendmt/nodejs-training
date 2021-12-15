@@ -1,5 +1,5 @@
 const postsData = require("../../data/posts.json");
-const { NotFoundError } = require("../../errors");
+const { NotFoundError, BadRequestError } = require("../../errors");
 const Post = require("./posts.model");
 const postsService = require("./posts.service");
 
@@ -38,13 +38,18 @@ class PostController {
     }
   }
 
-  createPost(req, res, next) {
-    const data = req.body;
-    console.log(data);
-    res.status(201).json({
-      id: 1,
-      name: "ana",
-    });
+  async createPost(req, res, next) {
+    try {
+      const { title, body, userId } = req.body;
+      if (title == "" || body == "" || userId == "") {
+        throw new BadRequestError("Bad request - parameter missing");
+      }
+
+      const result = await postsService.create({ title, body, userId });
+      res.status(201).json(result);
+    } catch (err) {
+      next(err);
+    }
   }
 }
 
