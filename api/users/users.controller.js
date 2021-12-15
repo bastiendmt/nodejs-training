@@ -7,6 +7,7 @@ const {
 } = require("../../errors");
 const Post = require("../posts/posts.model");
 const UserService = require("./users.service");
+const jwt = require("jsonwebtoken");
 
 class UsersController {
   getUserPosts(req, res, next) {
@@ -47,6 +48,21 @@ class UsersController {
       const newUser = await UserService.signup({ username, email, password });
       newUser.password = undefined;
       return res.status(201).json(newUser);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async login(req, res, next) {
+    try {
+      const { email, password } = req.body;
+      const userId = await UserService.checkPasswordUser(email, password);
+      if (!userId) {
+        throw new Error("Incorrect credentials");
+      }
+      // TODO to export
+      const token = jwt.sign({ userId }, "secretkey", { expiresIn: "3d" });
+      res.json({ token });
     } catch (err) {
       next(err);
     }
