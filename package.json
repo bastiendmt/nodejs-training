@@ -13,8 +13,8 @@
   "license": "ISC",
   "devDependencies": {
     "jest": "^27.4.5",
-    "nodemon": "^2.0.15",
     "mockingoose": "^2.15.2",
+    "nodemon": "^2.0.15",
     "supertest": "^6.1.6"
   },
   "dependencies": {
@@ -26,6 +26,7 @@
     "mongoose": "^6.1.2",
     "pug": "^3.0.2",
     "sqlite": "^4.0.23",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "validator": "^13.7.0"
   }
 }

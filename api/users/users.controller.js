@@ -1,5 +1,6 @@
+const { default: isEmail } = require("validator/lib/isEmail");
 const postsData = require("../../data/posts.json");
-const { NotFoundError } = require("../../errors");
+const { NotFoundError, BadRequestError } = require("../../errors");
 const Post = require("../posts/posts.model");
 const UserService = require("./users.service");
 
@@ -24,6 +25,9 @@ class UsersController {
   async signupUser(req, res, next) {
     try {
       const data = req.body;
+      if (!isEmail(data.email)) {
+        throw new BadRequestError("Bad request - email is invalid");
+      }
       const user = await UserService.signup(data);
       console.log(user);
       return res.status(201).json(user);
