@@ -4,9 +4,14 @@ const cors = require("cors");
 const helmet = require("helmet");
 const postsRouter = require("./api/posts/posts.router");
 const usersRouter = require("./api/users/users.router");
+const database = require("./db");
 const { NotFoundError } = require("./errors");
 
 const app = express();
+
+database.connect().then(() => {
+  console.log("Database is connected !");
+});
 
 app.set("view engine", "pug");
 app.set("views", "./templates");
