@@ -1,7 +1,7 @@
 const database = require("../../db");
 const Post = require("./posts.model");
 
-class PostsService {
+class PostService {
   getAll(search) {
     if (search) {
       return Post.find({ title: { $regex: search } });
@@ -10,14 +10,22 @@ class PostsService {
     return Post.find();
   }
 
-  getPost(postId) {
+  get(postId) {
     return Post.findById(postId);
   }
 
-  async create(postData) {
+  create(postData) {
     const post = new Post(postData);
     return post.save();
   }
+
+  update(id, data) {
+    return Post.findByIdAndUpdate(id, data);
+  }
+
+  delete(id) {
+    return Post.deleteOne({ _id: id });
+  }
 }
 
-module.exports = new PostsService();
+module.exports = new PostService();
