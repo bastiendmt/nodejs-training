@@ -1,20 +1,24 @@
 const postsData = require("../../data/posts.json");
 const { NotFoundError } = require("../../errors");
 const Post = require("./posts.model");
+const postsService = require("./posts.service");
 
 class PostController {
-  getAllPosts(req, res) {
-    const { search } = req.query;
-    const posts = postsData.map((post) => new Post(post));
-    if (search) {
-      const results = posts.filter(
-        (post) => post.title.includes(search) || post.body.includes(search)
-      );
-      res.json(results);
-      return;
+  async getAllPosts(req, res) {
+    try {
+      const { search } = req.query;
+      const posts = await postsService.getAll();
+      if (search) {
+        const results = posts.filter(
+          (post) => post.title.includes(search) || post.body.includes(search)
+        );
+        res.json(results);
+        return;
+      }
+      res.json(posts);
+    } catch (err) {
+      next(err);
     }
-
-    res.json(posts);
   }
 
   getPost(req, res, next) {
@@ -36,7 +40,7 @@ class PostController {
 
   createPost(req, res, next) {
     const data = req.body;
-    console.log(data)
+    console.log(data);
     res.status(201).json({
       id: 1,
       name: "ana",
