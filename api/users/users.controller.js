@@ -28,24 +28,24 @@ class UsersController {
 
   async signupUser(req, res, next) {
     try {
-      const data = req.body;
-      if (!isEmail(data.email)) {
+      const { username, email, password } = req.body;
+      if (!isEmail(email)) {
         throw new BadRequestError("Bad request - email is invalid");
       }
 
-      if (data.password.length < 8) {
+      if (password.length < 8) {
         throw new BadRequestError(
           "Bad request - Password must contains at least 8 characters"
         );
       }
 
-      const userAlreadySignedUp = await UserService.findByEmail(data.email);
-
+      const userAlreadySignedUp = await UserService.findByEmail(email);
       if (userAlreadySignedUp) {
         throw new ConflictError("Conflict - Email already exists");
       }
 
-      const newUser = await UserService.signup(data);
+      const newUser = await UserService.signup({ username, email, password });
+      user.password = undefined;
       return res.status(201).json(newUser);
     } catch (err) {
       next(err);

@@ -1,4 +1,3 @@
-const database = require("../../db");
 const Post = require("./posts.model");
 
 class PostService {
