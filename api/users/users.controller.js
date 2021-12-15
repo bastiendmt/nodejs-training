@@ -45,7 +45,7 @@ class UsersController {
       }
 
       const newUser = await UserService.signup({ username, email, password });
-      user.password = undefined;
+      newUser.password = undefined;
       return res.status(201).json(newUser);
     } catch (err) {
       next(err);
