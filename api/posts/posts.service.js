@@ -20,7 +20,7 @@ class PostService {
   }
 
   update(id, data) {
-    return Post.findByIdAndUpdate(id, data);
+    return Post.findByIdAndUpdate(id, data, { new: true });
   }
 
   delete(id) {
