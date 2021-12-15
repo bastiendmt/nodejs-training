@@ -7,7 +7,7 @@ class PostController {
   async getAllPosts(req, res) {
     try {
       const { search } = req.query;
-      const posts = await postsService.getAll();
+      const posts = await postsService.getAll(search);
       if (search) {
         const results = posts.filter(
           (post) => post.title.includes(search) || post.body.includes(search)
@@ -24,7 +24,7 @@ class PostController {
   async getPost(req, res, next) {
     try {
       // + => converts to a number;
-      const postId = +req.params.postId;
+      const postId = req.params.postId;
 
       const post = await postsService.getPost(postId);
       if (!post) {
@@ -44,8 +44,7 @@ class PostController {
         throw new BadRequestError("Bad request - parameter missing");
       }
 
-      const result = await postsService.create({ title, body, userId });
-      const post = await postsService.getPost(result.lastID);
+      const post = await postsService.create({ title, body, userId });
       res.status(201).json(post);
     } catch (err) {
       next(err);

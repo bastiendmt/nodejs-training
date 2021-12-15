@@ -2,7 +2,11 @@ const database = require("../../db");
 const Post = require("./posts.model");
 
 class PostsService {
-  getAll() {
+  getAll(search) {
+    if (search) {
+      return Post.find({ title: { $regex: search } });
+      // return Post.find({ title: { $regex: search }, age: { $gt: 18, $lt: 30} });
+    }
     return Post.find();
   }
 
@@ -10,13 +14,9 @@ class PostsService {
     return Post.findById(postId);
   }
 
-  async create(post) {
-    const result = await database.db.run(
-      `INSERT INTO posts(userId, title, body) VALUES(?, ?, ?)`,
-      [post.userId, post.title, post.body]
-    );
-    // this method can return the result or also fetch the post create and return it
-    return result;
+  async create(postData) {
+    const post = new Post(postData);
+    return post.save();
   }
 }
 
