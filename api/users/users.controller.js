@@ -33,6 +33,12 @@ class UsersController {
         throw new BadRequestError("Bad request - email is invalid");
       }
 
+      if (data.password.length < 8) {
+        throw new BadRequestError(
+          "Bad request - Password must contains at least 8 characters"
+        );
+      }
+
       const userAlreadySignedUp = await UserService.findByEmail(data.email);
 
       if (userAlreadySignedUp) {
