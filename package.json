@@ -7,7 +7,9 @@
     "test": "jest",
     "dev": "nodemon www/app",
     "db-create": "node bin/setup",
-    "db-reset": "node bin/resest"
+    "db-reset": "node bin/resest",
+    "start": "pm2 start www/app.js --name node-api",
+    "stop": "pm2 stop node-api"
   },
   "author": "bastienmt",
   "license": "ISC",
@@ -26,6 +28,7 @@
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.2",
+    "pm2": "^5.1.2",
     "pug": "^3.0.2",
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2",
