@@ -10,19 +10,7 @@ const { NotFoundError } = require("./errors");
 
 const app = express();
 
-// mongoose.connect("mongodb://163.172.165.5:27017/bastien");
-// mongoose.connect("mongodb+srv://<username>:<password>@cluster0.atzkf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-mongoose.connect("mongodb://localhost:27017/sparks")
 
-const db = mongoose.connection;
-
-db.on("error", (err) => {
-  console.log(err);
-});
-
-db.on("open", () => {
-  console.log("Database connected");
-});
 
 app.set("view engine", "pug");
 app.set("views", "./templates");

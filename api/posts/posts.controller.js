@@ -4,7 +4,7 @@ const Post = require("./posts.model");
 const PostService = require("./posts.service");
 
 class PostController {
-  async getAllPosts(req, res) {
+  async getAllPosts(req, res, next) {
     try {
       const { search } = req.query;
       const posts = await PostService.getAll(search);

@@ -4,7 +4,7 @@
   "description": "",
   "main": "www/app.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --watch",
     "dev": "nodemon www/app",
     "db-create": "node bin/setup",
     "db-reset": "node bin/resest",
