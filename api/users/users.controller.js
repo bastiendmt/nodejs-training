@@ -64,6 +64,7 @@ class UsersController {
       const token = jwt.sign({ userId }, process.env.SECRET_KEY, {
         expiresIn: "3d",
       });
+      res.setHeader("x-access-token", token);
       res.json({ token });
     } catch (err) {
       next(err);
