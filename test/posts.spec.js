@@ -15,10 +15,10 @@ beforeEach(() => {
     ],
     "find"
   );
-  // mockingoose(Post).toReturn(
-  //   [{ title: "hello world", body: "some boy" }],
-  //   "save"
-  // );
+  mockingoose(Post).toReturn(
+    [{ title: "hello world", body: "some boy" }],
+    "save"
+  );
 });
 
 describe("Posts", () => {
@@ -56,11 +56,14 @@ describe("Posts", () => {
     expect(res.body).toHaveProperty("body");
   });
 
-  // test("getting non existant post", async () => {
-  //   const res = await supertest(app).get("/api/posts/0");
-  //   expect(res.status).toBe(404);
-  //   expect(res.body).toMatchObject({});
-  // });
+  test("getting non existant post", async () => {
+    mockingoose(Post).reset('findOne');
+
+    const res = await supertest(app).get("/api/posts/99ba36ddb8c0affc8a190799");
+    console.log(res.status);
+    expect(res.status).toBe(404);
+    expect(res.body).toMatchObject({});
+  });
 
   // test("create a post", async () => {
   //   const res = await supertest(app).post("/api/posts").send({
