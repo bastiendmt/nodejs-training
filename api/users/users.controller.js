@@ -58,10 +58,12 @@ class UsersController {
       const { email, password } = req.body;
       const userId = await UserService.checkPasswordUser(email, password);
       if (!userId) {
-        throw new Error("Incorrect credentials");
+        throw new BadRequestError("Incorrect credentials");
       }
-      // TODO to export
-      const token = jwt.sign({ userId }, "secretkey", { expiresIn: "3d" });
+
+      const token = jwt.sign({ userId }, process.env.SECRET_KEY, {
+        expiresIn: "3d",
+      });
       res.json({ token });
     } catch (err) {
       next(err);

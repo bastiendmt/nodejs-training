@@ -18,7 +18,7 @@ class UserService {
   }
 
   async checkPasswordUser(email, password) {
-    const user = User.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) {
       return null;
     }
@@ -27,7 +27,7 @@ class UserService {
     if (!result) {
       return false;
     }
-    return user.userId;
+    return user._id;
   }
 }
 

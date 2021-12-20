@@ -10,8 +10,9 @@ const { NotFoundError } = require("./errors");
 
 const app = express();
 
-mongoose.connect("mongodb://163.172.165.5:27017/bastien");
-// Mongoose.connect("mongodb+srv://<username>:<password>@cluster0.atzkf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+// mongoose.connect("mongodb://163.172.165.5:27017/bastien");
+// mongoose.connect("mongodb+srv://<username>:<password>@cluster0.atzkf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+mongoose.connect("mongodb://localhost:27017/sparks")
 
 const db = mongoose.connection;
 
@@ -30,18 +31,7 @@ app.use(cors());
 app.use(express.json()); // This middleware can also be placed in a specific route
 app.use(helmet()); // This midleware handles XSS breaks and many others
 
-// Auth middleware
-const isAuth = app.use((req, res, next) => {
-  try {
-    const userId = jwt.verify(req.headers["x-access-token"], "secretkey");
-    req.user = userId;
-    next();
-  } catch (error) {
-    next(err);
-  }
-});
-
-app.use("/api/posts", isAuth, postsRouter);
+app.use("/api/posts", postsRouter);
 app.use("/api/users", usersRouter);
 
 // Serving html
