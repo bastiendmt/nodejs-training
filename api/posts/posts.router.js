@@ -1,4 +1,5 @@
 const express = require("express");
+const isAuth = require("../../middleware/is-auth");
 const {
   getAllPosts,
   getPost,
@@ -11,7 +12,7 @@ const router = express.Router();
 
 router.get("/", getAllPosts);
 router.get("/:postId", getPost);
-router.post("/", createPost);
+router.post("/", isAuth, createPost);
 router.put("/:id", updatePost);
 router.delete("/:id", deletePost);
 
